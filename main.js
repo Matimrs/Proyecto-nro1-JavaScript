@@ -62,6 +62,8 @@ function eliminarJugador(id){                               //Elimina el Jugador
     if(pos != jugadoresActivos.length) jugadoresActivos.splice(pos, 1)
 }
 
+//Ejemplo de uso
+
 agregarJugador("Matias","Argentina")                        //Se agrega Jugador ingresando su nombre y pais: agregarJugador(nombre,pais)
 agregarJugador("Lucas","Argentina")
 agregarJugador("Joao","Brasil")
@@ -111,6 +113,8 @@ function actualizacionNivel(id, partidasJugadas, partidasGanadas, torneosJugados
 
     }                                                        //Si no se cumple algunas de las condiciones, no se actualiza el nivel debido a que hay un error
 }
+
+//Ejemplo de uso
 
 let id = jugadoresActivos[jugadoresActivos.length - 1].id, pj = 200, pg = 120, tj = 50, tg = 30
 
