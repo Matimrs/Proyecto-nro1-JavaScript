@@ -31,6 +31,8 @@ const level = new Nivel (nivelActual, partidasGanadas, partidasJugadas, torneosG
 
 let jugadoresActivos = []                                   //Array que contiene los jugadores, inicializado en vacio
 
+
+
 function generarID(){                                       //Generacion de un id (identificador de cada jugador) a partir del id del Jugador registrado anteriormente
     if(jugadoresActivos.length == 0){
         return 1000001
@@ -123,6 +125,17 @@ actualizacionNivel(id, pj, pg, tj, tg)                       //Se actualiza el n
 agregarJugador("Mateo","Chile")
 
 console.table(jugadoresActivos)
+
+let form1 = document.getElementById("nuevo-jugador-enviar")
+
+form1.addEventListener("click",nuevoJugador)
+
+function nuevoJugador(){
+    let nombre = document.getElementById("nuevo-jugador-nombre").value, pais = document.getElementById("nuevo-jugador-pais").value
+    agregarJugador(nombre, pais)
+}
+
+
 
 
 
