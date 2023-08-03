@@ -1,45 +1,12 @@
-/*  Anotaciones
-
-function Nivel(nA, pG, pJ, tG, tJ, nF){
-    this.nivelActual = nA
-    this.partidasGanadas = pG
-    this.partidasJugadas = pJ
-    this.torneosGanados = tG
-    this.torneosJugados = tJ
-    this.nivelFinal = nF
-}
-
-class Nivel{
-    constructor(nA, pG, pJ, tG, tJ, nF){
-        this.nivelActual = nA
-        this.partidasGanadas = pG
-        this.partidasJugadas = pJ
-        this.torneosGanados = tG
-        this.torneosJugados = tJ
-        this.nivelFinal = nF
-    }
-    metodo(){}
-}
-
-const level = new Nivel (nivelActual, partidasGanadas, partidasJugadas, torneosGanados, torneosJugados, nivelFinal)
-
-*/
-
-
-
 //Simulacion de administrtacion de jugadores de un juego X
 
-let jugadoresActivos = []                                   //Array que contiene los jugadores, inicializado en vacio
 
-
-
-function generarID(){                                       //Generacion de un id (identificador de cada jugador) a partir del id del Jugador registrado anteriormente
-    if(jugadoresActivos.length == 0){
-        return 1000001
-    }
-    return ((jugadoresActivos[jugadoresActivos.length - 1].id) + 1)
+function generarID(){                                                   //Generacion de un id (identificador de cada jugador) a partir del id del Jugador registrado anteriormente
+    let get = localStorage.getItem("jugadores"), aux = JSON.parse(get)
+    if(get === null || aux.length == 0) return 1000001
+    return ((aux[aux.length - 1].id) + 1)
 }
-class Jugador{                                              //Objeto Jugador, con 4 propiedades
+class Jugador{                                                          //Objeto Jugador, con 4 propiedades
     constructor(nombre, pais){
         this.nombre = nombre
         this.pais = pais
@@ -48,34 +15,27 @@ class Jugador{                                              //Objeto Jugador, co
     }
 }
 
-function agregarJugador(nombre, pais){                      //Agrega un nuevo Jugador al final del array de jugadoresActivos
-    const aux = new Jugador (nombre,pais)
-    jugadoresActivos.push(aux)
+function agregarJugador(nombre, pais){                                  //Agrega un nuevo Jugador al final del array de jugadoresActivos
+    const aux = new Jugador (nombre,pais), get = localStorage.getItem("jugadores")
+    let aux1
+    if(get == null) aux1 = [aux]
+    else {
+        aux1 = JSON.parse(get)
+        aux1.push(aux)
+    }
+    localStorage.setItem("jugadores",JSON.stringify(aux1))
 }
 
-function eliminarJugador(id){                               //Elimina el Jugador del array por su id
-    let pos
+function eliminarJugador(id){                                           //Elimina el Jugador del array por su id
+    let pos, aux = JSON.parse(localStorage.getItem("jugadores"))
 
-    for(let i = 0; i < jugadoresActivos.length ; i++){      //Busca la posicion en el array del jugador que posee dicho id
-
-        if(jugadoresActivos[i].id == id) pos = i
+    for(let i = 0; i < aux.length ; i++){                               //Busca la posicion en el array del jugador que posee dicho id
+        if(aux[i].id == id) pos = i
     }
 
-    if(pos != jugadoresActivos.length) jugadoresActivos.splice(pos, 1)
+    aux.splice(pos, 1)
+    localStorage.setItem("jugadores",JSON.stringify(aux))
 }
-
-//Ejemplo de uso
-
-agregarJugador("Matias","Argentina")                        //Se agrega Jugador ingresando su nombre y pais: agregarJugador(nombre,pais)
-agregarJugador("Lucas","Argentina")
-agregarJugador("Joao","Brasil")
-agregarJugador("Ivan","Argentina")
-
-
-eliminarJugador(1000001)                                    //Se elimina Jugador pasando un id a la funcion: eliminarJugador(id)
-
-console.table(jugadoresActivos)
-
 
 //Simulacion de calculo de nivel de un Jugador Y de un juego X.
 
@@ -93,14 +53,15 @@ function calculo(jug, gan){
 function actualizacionNivel(id, partidasJugadas, partidasGanadas, torneosJugados, torneosGanados){
 
     let pos, nivel
+    let aux = JSON.parse(localStorage.getItem("jugadores"))
 
-    for(let i = 0; i < jugadoresActivos.length ; i++){                     //Busca la posicion en el array del jugador que posee dicho id
+    for(let i = 0; i < aux.length ; i++){                     //Busca la posicion en el array del jugador que posee dicho id
 
-        if(jugadoresActivos[i].id == id) pos = i
+        if(aux[i].id == id) pos = i
 
     }
 
-    nivel = jugadoresActivos[pos].nivel
+    nivel = aux[pos].nivel
 
 
     if(nivel >= 0 && (partidasJugadas >= 0 && (partidasGanadas <= partidasJugadas && (partidasGanadas >= 0 && (torneosJugados >= 0 && (torneosGanados <= torneosGanados && torneosJugados >= 0)))))){
@@ -111,30 +72,34 @@ function actualizacionNivel(id, partidasJugadas, partidasGanadas, torneosJugados
 
         if(nivel > 100) nivel = 100;
 
-    jugadoresActivos[pos].nivel = nivel
-
+    aux[pos].nivel = nivel
+    localStorage.setItem("jugadores",JSON.stringify(aux))
     }                                                        //Si no se cumple algunas de las condiciones, no se actualiza el nivel debido a que hay un error
 }
 
-//Ejemplo de uso
+let id = 1000002, pj = 200, pg = 120, tj = 50, tg = 30
 
-let id = jugadoresActivos[jugadoresActivos.length - 1].id, pj = 200, pg = 120, tj = 50, tg = 30
+//actualizacionNivel(id, pj, pg, tj, tg)                                    //Se actualiza el nivel del ultimo Jugador del array, con la nueva informacion de partidas y torneos                                                
 
-actualizacionNivel(id, pj, pg, tj, tg)                       //Se actualiza el nivel del ultimo Jugador del array, con la nueva informacion de partidas y torneos                                                
 
-agregarJugador("Mateo","Chile")
+let btnAgregarJugador = document.getElementById("nuevo-jugador-enviar")
 
-console.table(jugadoresActivos)
-
-let form1 = document.getElementById("nuevo-jugador-enviar")
-
-form1.addEventListener("click",nuevoJugador)
+btnAgregarJugador.addEventListener("click",nuevoJugador)
 
 function nuevoJugador(){
-    let nombre = document.getElementById("nuevo-jugador-nombre").value, pais = document.getElementById("nuevo-jugador-pais").value
+    const nombre = document.getElementById("nuevo-jugador-nombre").value, pais = document.getElementById("nuevo-jugador-pais").value
     agregarJugador(nombre, pais)
 }
 
+
+let btnEliminarJugador = document.getElementById("eliminar-jugador-enviar")
+
+btnEliminarJugador.addEventListener("click",borrarJugador)
+
+function borrarJugador(){
+    const id = document.getElementById("eliminar-jugador-id").value
+    eliminarJugador(id)
+}
 
 
 
