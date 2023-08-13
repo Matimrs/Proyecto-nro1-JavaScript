@@ -9,33 +9,39 @@
 <body>
     <main>
         <div id="admin">
+            <h2>Admin/Sistema:</h2>
             <form id="nuevo-jugador">
-                <h2>Agregar Jugador</h2>
-                <label for="nuevo-jugador-nombre">Nombre</label>
+                <h3>Agregar Jugador</h3>
+                <label for="nuevo-jugador-nombre">Alias</label>
                 <input id="nuevo-jugador-nombre" type="text">
                 <label for="nuevo-jugador-pais">Pais</label>
                 <input id="nuevo-jugador-pais" type="text">
-                <input id="nuevo-jugador-enviar" type="submit">
+                <input id="nuevo-jugador-enviar" type="submit" value="Agregar">
             </form>
             <form id="eliminar-jugador">
-                <h2>Eliminar Jugador</h2>
+                <h3>Eliminar Jugador</h3>
                 <label for="eliminar-jugador-id">ID</label>
                 <input id="eliminar-jugador-id" type="number">
-                <input id="eliminar-jugador-enviar" type="submit">
+                <input id="eliminar-jugador-enviar" type="submit" value="Eliminar">
             </form>
         </div>
         <br>
         <div id="user">
+            <h2>Usuario:</h2>
             <div id="busqueda">
-                <h2>Buscar jugadores</h2>
+                <h3>Buscar jugadores</h3>
                 <label for="buscar-amigos">Jugadores</label>
-                <input id="buscar-amigos" type="text">
-                <button id="buscar-amigos-enviar">Buscar</button>
+                <input id="buscar-amigos" type="text" placeholder="Alias">
+                <input id="buscar-amigos-enviar"  type="submit" value = "Buscar">
             </div>
             <div id="lista-busqueda">
 
             </div>
-            <button id="mostrar-amigos">Mostrar Amigos</button>
+            
+            <div id="lista-amigos">
+                <button id="mostrar-amigos">Mostrar Amigos</button>
+                
+            </div>
             <!--
             <form id="actualizar-nivel">
                 <label for="partidas-jugadas">Partidas jugadas</label>
