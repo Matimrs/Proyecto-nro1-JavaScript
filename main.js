@@ -1,3 +1,12 @@
+let inicioJugadores = localStorage.getItem("jugadores")
+
+if(inicioJugadores == null) localStorage.setItem("jugadores",JSON.stringify([]))
+
+let inicioAmigos = localStorage.getItem("amigos")
+
+if(inicioAmigos == null) localStorage.setItem("amigos",JSON.stringify([]))
+
+
 //Simulacion de administrtacion de jugadores de un juego X
 
 function generarID(){                                                           //Generacion de un id (identificador de cada jugador) a partir del id del Jugador registrado anteriormente
@@ -27,8 +36,8 @@ function agregarJugador(alias, pais){                                          /
 
 function eliminarJugador(id){                                                   //Elimina el Jugador del array por su id al array "jugadores"
     let  arrayJugadores = JSON.parse(localStorage.getItem("jugadores"))
-    let pos = arrayJugadores.map((elemento) => {return elemento.id}).indexOf(id)
-    if(pos != undefined){
+    let aux = arrayJugadores.map(function(elemento){return elemento.id}), pos = aux.indexOf(id)
+    if(pos != undefined && pos != null){
         arrayJugadores.splice(pos, 1)
     }
     localStorage.setItem("jugadores",JSON.stringify(arrayJugadores))
@@ -96,7 +105,7 @@ let btnEliminarJugador = document.getElementById("eliminar-jugador-enviar")
 btnEliminarJugador.addEventListener("click",borrarJugador)
 
 function borrarJugador(){
-    let id = document.getElementById("eliminar-jugador-id").value
+    let id = parseInt(document.getElementById("eliminar-jugador-id").value)
     let arrayJugadores = JSON.parse(localStorage.getItem("jugadores")) , flag = arrayJugadores.find((elemento) => {return elemento.id == id})
     if(flag !== undefined){
     eliminarJugador(id)
@@ -118,45 +127,48 @@ function buscarJugador(){
     let arrayCoincidencia = aux.filter((elemento) =>{ return elemento.alias === name })
     
     let divBuscar = document.getElementById("busqueda")
-
+    let divLista = document.getElementById("lista-busqueda")
+    divLista.className = "listas"
+    let cancelar
+    cancelar = document.createElement("button")
+    cancelar.id = 'cancelar-busqueda'
+    cancelar.innerText = "Salir"
+    cancelar.className = "boton"
+    divLista.append(cancelar)
+    cancelar.addEventListener("click",borrarBusquedaJugadores)
     if(arrayCoincidencia.length == 0){                                          
         let aviso = document.createElement("p")
         aviso.id = "aviso-no-coincidencia"
         aviso.innerText = "No se encontraron coincidencias"                                             
-        divBuscar.append(aviso)
+        divLista.append(aviso)
     }
     else{ 
         arrayCoincidencia.forEach((elemento)=>{
         let mostrar = document.createElement("div"), arrayAmigos = JSON.parse(localStorage.getItem("amigos")), bandera, id = elemento.id
         if (arrayAmigos != null) bandera = arrayAmigos.find((amigo) => amigo.id == id)
         if( (arrayAmigos == null) ||  (bandera === undefined)){
-            mostrar.innerHTML = "<h3>Alias</h3><h4> " + elemento.alias +"</h4></h3><h3>Nivel</h3> <h4>"+ elemento.nivel +"</h4></h3><h3>Pais</h3> <h4>"+ elemento.pais +"</h4></h3><h3>ID</h3> <h4>"+ elemento.id +"</h4> <button class='boton-agregar-amigo'>Agregar Amigo</button>"
+            mostrar.innerHTML = "<h4>Alias</h4><h3> " + elemento.alias +"</h3></h4><h4>Nivel</h4> <h3>"+ elemento.nivel +"</h3></h4><h4>Pais</h4> <h3>"+ elemento.pais +"</h3></h4><h4>ID</h4> <h3>"+ elemento.id +"</h3> <button class='boton-agregar-amigo'>Agregar Amigo</button>"
         }
         else{
-            mostrar.innerHTML = "<h3>Alias</h3><h4> " + elemento.alias +"</h4></h3><h3>Nivel</h3> <h4>"+ elemento.nivel +"</h4></h3><h3>Pais</h3> <h4>"+ elemento.pais +"</h4></h3><h3>ID</h3> <h4>"+ elemento.id +"</h4> <button class='boton-eliminar-amigo'>Eliminar Amigo</button>"
+            mostrar.innerHTML = "<h4>Alias</h4><h3> " + elemento.alias +"</h3></h4><h4>Nivel</h4> <h3>"+ elemento.nivel +"</h3></h4><h4>Pais</h4> <h3>"+ elemento.pais +"</h3></h4><h4>ID</h4> <h3>"+ elemento.id +"</h3> <button class='boton-agregar-amigo'>Eliminar Amigo</button>"
         }
         mostrar.className = "agregar-amigo"
-        let divLista = document.getElementById("lista-busqueda")
         divLista.append(mostrar)
     });
     
-    let btnAgregarAmigo = document.querySelectorAll(".agregar-amigo")
+    let btnAgregarAmigo = document.querySelectorAll(".boton-agregar-amigo")
     btnAgregarAmigo.forEach((elemento) => {
         elemento.addEventListener("click",botonAmigo)
     })}
    
   
-    let cancelar
-    cancelar = document.createElement("button")
-    cancelar.id = 'cancelar-busqueda'
-    cancelar.innerText = "Salir"
-    divBuscar.append(cancelar)
-    cancelar.addEventListener("click",borrarBusquedaJugadores)
+    
     
 }
 
-function borrarBusquedaJugadores(e){
-    let arrayBusqueda = document.querySelectorAll(".agregar-amigo"), btnCancelar = e.target, aviso = document.getElementById("aviso-no-coincidencia")
+function borrarBusquedaJugadores(){
+    let arrayBusqueda = document.querySelectorAll(".agregar-amigo"), btnCancelar = document.getElementById("cancelar-busqueda"), aviso = document.getElementById("aviso-no-coincidencia"), divLista = document.getElementById("lista-busqueda")
+    divLista.className= null
     for(let i = 0 ; i < arrayBusqueda.length ; i++){
         arrayBusqueda[i].remove()
     }
@@ -207,22 +219,25 @@ let btnMostrarAmigos = document.getElementById("mostrar-amigos")
 btnMostrarAmigos.addEventListener("click",mostrarAmigos)
 
 function mostrarAmigos(){
-    let arrayAmigos = JSON.parse(localStorage.getItem("amigos")), divLista = document.getElementById("lista-amigos"), cancelar
+    let arrayAmigos = JSON.parse(localStorage.getItem("amigos")), divLista = document.getElementById("lista-amigos"), cancelar,flag = document.getElementById("cancelar-busqueda-amigos")
+    if(flag != null) borrarBusquedaAmigos();
+    divLista.className = "listas"
     cancelar = document.createElement("button")
-    cancelar.id = 'cancelar-busqueda'
+    cancelar.id = 'cancelar-busqueda-amigos'
     cancelar.innerText = "Salir"
+    cancelar.className = "boton"
     divLista.append(cancelar)
 
     if((arrayAmigos != null ) && (arrayAmigos.length > 0)){
         arrayAmigos.forEach((elemento)=>{
             let mostrar = document.createElement("div"), arrayAmigos = JSON.parse(localStorage.getItem("amigos")), bandera, id = elemento.id
-            mostrar.innerHTML = "<h3>Alias</h3><h4> " + elemento.alias +"</h4></h3><h3>Nivel</h3> <h4>"+ elemento.nivel +"</h4></h3><h3>Pais</h3> <h4>"+ elemento.pais +"</h4></h3><h3>ID</h3> <h4>"+ elemento.id +"</h4> <button class='boton-eliminar-amigo'>Eliminar Amigo</button>"
+            mostrar.innerHTML = "<h4>Alias</h4><h3> " + elemento.alias +"</h3></h4><h4>Nivel</h4> <h3>"+ elemento.nivel +"</h3></h4><h4>Pais</h4> <h3>"+ elemento.pais +"</h3></h4><h4>ID</h4> <h3>"+ elemento.id +"</h3> <button class='boton-agregar-amigo'>Eliminar Amigo</button>"
             mostrar.className = "mostrar-amigo"
             let divLista = document.getElementById("lista-amigos")
             divLista.append(mostrar)
         }
         )
-        let btnAgregarAmigo = document.querySelectorAll(".mostrar-amigo")
+        let btnAgregarAmigo = document.querySelectorAll(".boton-agregar-amigo")
         btnAgregarAmigo.forEach((elemento) => {
         elemento.addEventListener("click",botonAmigo)
     })
@@ -237,11 +252,12 @@ function mostrarAmigos(){
     cancelar.addEventListener("click",borrarBusquedaAmigos)
 }
 
-function borrarBusquedaAmigos(e){
-    let arrayBusqueda = document.querySelectorAll(".mostrar-amigo"), btnCancelar = e.target, aviso = document.getElementById("sin-amigos")
+function borrarBusquedaAmigos(){
+    let arrayBusqueda = document.querySelectorAll(".mostrar-amigo"), btnCancelar = document.getElementById("cancelar-busqueda-amigos"), aviso = document.getElementById("sin-amigos"), divLista= document.getElementById("lista-amigos")
+    divLista.className = null;
     for(let i = 0 ; i < arrayBusqueda.length ; i++){
         arrayBusqueda[i].remove()
     }
-    btnCancelar.remove()
+    if(btnCancelar != null)btnCancelar.remove()
     if(aviso != null) aviso.remove()
 }

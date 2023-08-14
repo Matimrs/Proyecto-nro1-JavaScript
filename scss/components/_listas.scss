@@ -1,0 +1,26 @@
+.listas{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: $rojo;
+    border: 1px solid $rojo;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px grey;
+}
+.agregar-amigo, .mostrar-amigo{
+    padding: 10px;
+    text-align: left;
+    border: 1px solid black;
+    border-radius: 5px;
+    h3,h4,button{
+        margin: 10px !important;
+    }
+    h3{
+        margin-bottom: 15px;
+    }
+    h4{
+        color: white;
+    }
+}

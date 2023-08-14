@@ -4,42 +4,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Nivelacion</title>
 </head>
 <body>
     <main>
-        <div id="admin">
+        <div id="admin" class="usuarios">
             <h2>Admin/Sistema:</h2>
-            <form id="nuevo-jugador">
-                <h3>Agregar Jugador</h3>
+            <h3>Agregar Jugador</h3>
+            <form id="nuevo-jugador" class="listas">
                 <label for="nuevo-jugador-nombre">Alias</label>
                 <input id="nuevo-jugador-nombre" type="text">
                 <label for="nuevo-jugador-pais">Pais</label>
                 <input id="nuevo-jugador-pais" type="text">
-                <input id="nuevo-jugador-enviar" type="submit" value="Agregar">
+                <input id="nuevo-jugador-enviar" class="boton" type="submit" value="Agregar">
             </form>
-            <form id="eliminar-jugador">
-                <h3>Eliminar Jugador</h3>
+            <h3>Eliminar Jugador</h3>
+            <div id="eliminar-jugador" class="listas">
                 <label for="eliminar-jugador-id">ID</label>
                 <input id="eliminar-jugador-id" type="number">
-                <input id="eliminar-jugador-enviar" type="submit" value="Eliminar">
-            </form>
+                <input id="eliminar-jugador-enviar" class="boton" type="submit" value="Eliminar">
+            </div>
         </div>
-        <br>
-        <div id="user">
+        <div id="user" class="usuarios">
             <h2>Usuario:</h2>
-            <div id="busqueda">
-                <h3>Buscar jugadores</h3>
+            <h3>Buscar jugadores</h3>
+            <div id="busqueda" class="listas">
                 <label for="buscar-amigos">Jugadores</label>
                 <input id="buscar-amigos" type="text" placeholder="Alias">
-                <input id="buscar-amigos-enviar"  type="submit" value = "Buscar">
+                <input id="buscar-amigos-enviar" class="boton" type="submit" value = "Buscar">
             </div>
             <div id="lista-busqueda">
 
             </div>
-            
+            <h3>Mostrar Amigos</h3>
+            <button id="mostrar-amigos" class="boton">Mostrar Amigos</button>
             <div id="lista-amigos">
-                <button id="mostrar-amigos">Mostrar Amigos</button>
+                
                 
             </div>
             <!--
