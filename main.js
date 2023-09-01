@@ -14,17 +14,30 @@ function generarID(){                                                           
     if((get === null) || (aux.length == 0)) return 1000001
     return ((aux[aux.length - 1].id) + 1)
 }
-class Jugador{                                                                  //Objeto Jugador, con 4 propiedades
+
+async function generarDate(){
+    const response = await fetch("./data.json")
+    const data = await response.json()
+    return data.date
+}
+class Jugador{                                                                  //Objeto Jugador, con 5 propiedades
     constructor(alias, pais){
         this.alias = alias
         this.pais = pais
         this.nivel = 0
         this.id = generarID()
+        this.date = null
+    }
+
+    async init(){
+        this.date = await generarDate()
     }
 }
+ async function agregarJugador(alias, pais){                                          //Agrega un nuevo Jugador al array "jugadores" en localstorage
+    
+    let aux = new Jugador(alias,pais)
+    await aux.init()
 
-function agregarJugador(alias, pais){                                          //Agrega un nuevo Jugador al array "jugadores"
-    const aux = new Jugador (alias,pais)
     let aux1, get = localStorage.getItem("jugadores")
     if(get == null) aux1 = [aux]
     else {
@@ -34,7 +47,7 @@ function agregarJugador(alias, pais){                                          /
     localStorage.setItem("jugadores",JSON.stringify(aux1))
 }
 
-function eliminarJugador(id){                                                   //Elimina el Jugador del array por su id al array "jugadores"
+function eliminarJugador(id){                                                   //Elimina el Jugador del array por su id al array "jugadores" del localstorage
     let  arrayJugadores = JSON.parse(localStorage.getItem("jugadores"))
     let aux = arrayJugadores.map(function(elemento){return elemento.id}), pos = aux.indexOf(id)
     if(pos != undefined && pos != null){
