@@ -6,19 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
     <title>Nivelacion</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <main>
         <div id="admin" class="usuarios">
             <h2>Admin/Sistema:</h2>
             <h3>Agregar Jugador</h3>
-            <form id="nuevo-jugador" class="listas">
+            <div id="nuevo-jugador" class="listas">
                 <label for="nuevo-jugador-nombre">Alias</label>
                 <input id="nuevo-jugador-nombre" type="text">
                 <label for="nuevo-jugador-pais">Pais</label>
                 <input id="nuevo-jugador-pais" type="text">
                 <input id="nuevo-jugador-enviar" class="boton" type="submit" value="Agregar">
-            </form>
+            </div>
             <h3>Eliminar Jugador</h3>
             <div id="eliminar-jugador" class="listas">
                 <label for="eliminar-jugador-id">ID</label>
@@ -59,7 +60,8 @@
         </div>
         
     </main>
-   
+    
     <script src="main.js"></script>
+    
 </body>
 </html>

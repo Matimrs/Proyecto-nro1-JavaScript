@@ -7,6 +7,7 @@ let inicioAmigos = localStorage.getItem("amigos")
 if(inicioAmigos == null) localStorage.setItem("amigos",JSON.stringify([]))
 
 
+
 //Simulacion de administrtacion de jugadores de un juego X
 
 function generarID(){                                                           //Generacion de un id (identificador de cada jugador) a partir del id del Jugador registrado anteriormente
@@ -104,8 +105,14 @@ btnAgregarJugador.addEventListener("click", nuevoJugador)
 
 function nuevoJugador(){
     let nombre = document.getElementById("nuevo-jugador-nombre").value, pais = document.getElementById("nuevo-jugador-pais").value
-    if(nombre == "") alert("Alias sin completar")
-    else if(pais == "") alert("Pais sin completar")
+    if(nombre == ""){
+        Swal.fire({title:'Alias sin completar',
+        icon: 'warning'});
+    } 
+    else if(pais == ""){
+        Swal.fire({title:'Pais sin completar',
+        icon: 'warning'});
+    } 
     else{
         agregarJugador(nombre, pais.toUpperCase())
     }
@@ -124,7 +131,7 @@ function borrarJugador(){
     eliminarJugador(id)
     //eliminar de listas de amigos
     }
-    else alert("No se encontro el jugador")
+    else Swal.fire('No se encontro el jugador')
    
 }
 
